@@ -41,7 +41,7 @@ public class CantidateManager implements CandidateService {
 	@Override
 	public Result add(Candidate candidate) {
 		var result = BusinessRules.run(validate(candidate),checkIfPasswordExists(candidate),
-				checkIfMailExists(candidate),checkIfIdentityNumberExists(candidate),validateMernis());
+				checkIfMailExists(candidate),checkIfIdentityNumberExists(candidate),validateMernis(candidate));
 		if(result!=null) {
 			return result;
 		}
@@ -99,8 +99,9 @@ public class CantidateManager implements CandidateService {
 		return new SuccessResult();
 	}
 	
-	private Result validateMernis() {
-		if (userCheckService.validateByMernis(0, null, null, 0)) {
+	private Result validateMernis(Candidate candidate) {
+		if (userCheckService.validateByMernis(Long.parseLong(candidate.getIdentityNumber()),candidate.getFirstName(),
+				candidate.getLastName(),candidate.getBirthOfYear())) {
 			return new SuccessResult(Messages.validateSuccessMernis);
 		}
 		return new ErrorResult(Messages.validateErrorMernis);
