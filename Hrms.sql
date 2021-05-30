@@ -36,11 +36,19 @@ CREATE TABLE public.candidates
     PRIMARY KEY (user_id)
 );
 
+CREATE TABLE public.cities
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    name character varying(50) NOT NULL,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE public.employees
 (
     user_id integer NOT NULL,
     first_name character varying(25) NOT NULL,
     last_name character varying(25) NOT NULL,
+    id integer NOT NULL,
     PRIMARY KEY (user_id)
 );
 
@@ -64,6 +72,22 @@ CREATE TABLE public.employers
     PRIMARY KEY (user_id)
 );
 
+CREATE TABLE public.job_adverts
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    city_id integer NOT NULL,
+    employer_id integer NOT NULL,
+    job_title_id integer NOT NULL,
+    description character varying(500) NOT NULL,
+    min_salary double precision,
+    max_salary double precision,
+    open_position_count integer NOT NULL,
+    create_date date NOT NULL,
+    last_apply_date date NOT NULL,
+    is_active boolean NOT NULL,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE public.job_titles
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
@@ -76,6 +100,7 @@ CREATE TABLE public.users
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     email character varying(50) NOT NULL,
     password character varying(50) NOT NULL,
+    password_repeat character varying(50),
     PRIMARY KEY (id)
 );
 
@@ -115,6 +140,12 @@ ALTER TABLE public.employees
     NOT VALID;
 
 
+ALTER TABLE public.employees
+    ADD FOREIGN KEY (id)
+    REFERENCES public.users (id)
+    NOT VALID;
+
+
 ALTER TABLE public.employer_activation_by_employees
     ADD FOREIGN KEY (confirmed_employee_id)
     REFERENCES public.employees (user_id)
@@ -130,6 +161,24 @@ ALTER TABLE public.employer_activation_by_employees
 ALTER TABLE public.employers
     ADD FOREIGN KEY (user_id)
     REFERENCES public.users (id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_adverts
+    ADD FOREIGN KEY (city_id)
+    REFERENCES public.cities (id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_adverts
+    ADD FOREIGN KEY (employer_id)
+    REFERENCES public.employers (user_id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_adverts
+    ADD FOREIGN KEY (job_title_id)
+    REFERENCES public.job_titles (id)
     NOT VALID;
 
 END;
