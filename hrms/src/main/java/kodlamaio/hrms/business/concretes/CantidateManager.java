@@ -93,7 +93,7 @@ public class CantidateManager implements CandidateService {
 	}
 	
 	private Result checkIfIdentityNumberExists(Candidate candidate) {
-		if (candidateDao.findByIdentityNumber(candidate.getIdentityNumber())!=null) {
+		if (this.candidateDao.findByIdentityNumber(candidate.getIdentityNumber())!=null) {
 			return new ErrorResult(Messages.checkIfIdentityNumberExists);
 		}
 		return new SuccessResult();
