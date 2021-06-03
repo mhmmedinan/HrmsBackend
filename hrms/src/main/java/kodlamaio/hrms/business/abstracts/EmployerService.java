@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface EmployerService {
 
-	   DataResult<List<Employer>> getAll();
-	   Result add(Employer employer);
+	DataResult<List<Employer>> getAll();
+
+	Result add(Employer employer);
 }

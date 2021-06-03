@@ -20,7 +20,7 @@ import kodlamaio.hrms.entities.concretes.City;
 public class CityManager implements CityService {
 
 	private CityDao cityDao;
-	
+
 	@Autowired
 	public CityManager(CityDao cityDao) {
 		super();
@@ -29,8 +29,8 @@ public class CityManager implements CityService {
 
 	@Override
 	public Result add(City city) {
-		var result = BusinessRules.run(checkIfNameExists(city),validate(city));
-		if (result!=null) {
+		var result = BusinessRules.run(checkIfNameExists(city));
+		if (result != null) {
 			return result;
 		}
 		this.cityDao.save(city);
@@ -39,18 +39,12 @@ public class CityManager implements CityService {
 
 	@Override
 	public DataResult<List<City>> getAll() {
-		return new SuccessDataResult<List<City>>(this.cityDao.findAll());
+		return new SuccessDataResult<List<City>>(this.cityDao.findAll(), Messages.listCityAll);
 	}
-	
+
 	private Result checkIfNameExists(City city) {
-		if (this.cityDao.findByName(city.getName())!=null) {
-			return new ErrorResult(Messages.checkIfCityNameExists);		}
-		return new SuccessResult();
-	}
-	
-	private Result validate(City city) {
-		if (city.getName()==null) {
-			return new ErrorResult(Messages.validateMessage);
+		if (this.cityDao.getByName(city.getName()) != null) {
+			return new ErrorResult(Messages.checkIfCityNameExists);
 		}
 		return new SuccessResult();
 	}

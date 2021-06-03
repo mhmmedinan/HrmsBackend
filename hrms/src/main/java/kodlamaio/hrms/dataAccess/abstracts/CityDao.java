@@ -6,5 +6,5 @@ import kodlamaio.hrms.entities.concretes.City;
 
 public interface CityDao extends JpaRepository<City, Integer> {
 
-	City findByName(String name);
+	City getByName(String name);
 }

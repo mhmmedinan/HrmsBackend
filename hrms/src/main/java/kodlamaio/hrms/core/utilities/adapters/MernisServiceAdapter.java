@@ -10,7 +10,7 @@ public class MernisServiceAdapter implements UserCheckService {
 	@Override
 	public boolean validateByMernis(long nationalId, String firstName, String lastName, int yearOfBirth) {
 		FakeMernisService client = new FakeMernisService();
-		
+
 		try {
 			boolean result = client.validateUser(nationalId, firstName, lastName, yearOfBirth);
 			return result;

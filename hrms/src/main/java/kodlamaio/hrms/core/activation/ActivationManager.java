@@ -1,9 +1,8 @@
 package kodlamaio.hrms.core.activation;
 
-
 import org.springframework.stereotype.Service;
 
-import kodlamaio.hrms.entities.concretes.User;
+import kodlamaio.hrms.core.entities.User;
 
 @Service
 public class ActivationManager implements ActivationService {
@@ -12,7 +11,5 @@ public class ActivationManager implements ActivationService {
 	public boolean sendMail(User user) {
 		return true;
 	}
-
-	
 
 }

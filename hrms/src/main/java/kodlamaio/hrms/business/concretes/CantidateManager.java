@@ -16,9 +16,8 @@ import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.CandidateDao;
-import kodlamaio.hrms.dataAccess.abstracts.UserDao;
+import kodlamaio.hrms.core.dataAccess.UserDao;
 import kodlamaio.hrms.entities.concretes.Candidate;
-
 
 @Service
 public class CantidateManager implements CandidateService {
@@ -27,83 +26,71 @@ public class CantidateManager implements CandidateService {
 	private UserDao userDao;
 	private ActivationService activationService;
 	private UserCheckService userCheckService;
-	
+
 	@Autowired
-	public CantidateManager(CandidateDao candidateDao,UserDao userDao,ActivationService activationService,
+	public CantidateManager(CandidateDao candidateDao, UserDao userDao, ActivationService activationService,
 			UserCheckService userCheckService) {
 		super();
 		this.candidateDao = candidateDao;
-		this.userDao=userDao;
-		this.activationService=activationService;
-		this.userCheckService=userCheckService;
+		this.userDao = userDao;
+		this.activationService = activationService;
+		this.userCheckService = userCheckService;
 	}
 
 	@Override
 	public Result add(Candidate candidate) {
-		var result = BusinessRules.run(validate(candidate),checkIfPasswordExists(candidate),
-				checkIfMailExists(candidate),checkIfIdentityNumberExists(candidate),validateMernis(candidate));
-		if(result!=null) {
+		var result = BusinessRules.run(checkIfPasswordExists(candidate), checkIfMailExists(candidate),
+				checkIfIdentityNumberExists(candidate), validateMernis(candidate));
+		if (result != null) {
 			return result;
-		}
-		else if (activationService.sendMail(candidate) ) {
+		} else if (activationService.sendMail(candidate)) {
 			this.candidateDao.save(candidate);
 			return new SuccessResult(Messages.candidateAdded);
 		}
-		
+
 		return new ErrorResult(Messages.candidateInsertionError);
 	}
 
 	@Override
-	public DataResult<List<Candidate>> getAll() {
-		return new SuccessDataResult<List<Candidate>>(this.candidateDao.findAll());
-		
+	public Result delete(Candidate candidate) {
+		this.candidateDao.delete(candidate);
+		return new SuccessResult(Messages.candidateDeleted);
 	}
 
-	
-	private Result validate(Candidate candidate) 
-	{
-		if(candidate.getEmail()==null
-				|| candidate.getPassword()==null
-				|| candidate.getPasswordRepeat()==null
-				|| candidate.getFirstName()==null
-				|| candidate.getLastName()==null
-				|| candidate.getIdentityNumber()==null
-				|| candidate.getBirthOfYear()==null)
-		{
-			return new ErrorResult(Messages.validateMessage);
-			
-		}
-		return new SuccessResult();
-				
+	@Override
+	public DataResult<List<Candidate>> getAll() {
+		return new SuccessDataResult<List<Candidate>>(this.candidateDao.findAll(), Messages.listAll);
+
 	}
-	
+
 	private Result checkIfPasswordExists(Candidate candidate) {
 		if (!candidate.getPassword().equals(candidate.getPasswordRepeat())) {
-			return new ErrorResult(Messages.checkIfPasswordExists);		}
+			return new ErrorResult(Messages.checkIfPasswordExists);
+		}
 		return new SuccessResult();
 	}
-	
+
 	private Result checkIfMailExists(Candidate candidate) {
-		if (this.userDao.findUserByEmail(candidate.getEmail()) !=null)
-		{
+		if (this.userDao.findUserByEmail(candidate.getEmail()) != null) {
 			return new ErrorResult(Messages.checkIfMailExists);
 		}
-		
+
 		return new SuccessResult();
 	}
-	
+
 	private Result checkIfIdentityNumberExists(Candidate candidate) {
-		if (this.candidateDao.findByIdentityNumber(candidate.getIdentityNumber())!=null) {
+		if (this.candidateDao.getByIdentityNumber(candidate.getIdentityNumber()) != null) {
 			return new ErrorResult(Messages.checkIfIdentityNumberExists);
 		}
 		return new SuccessResult();
 	}
-	
+
 	private Result validateMernis(Candidate candidate) {
-		if (userCheckService.validateByMernis(Long.parseLong(candidate.getIdentityNumber()),candidate.getFirstName(),
-				candidate.getLastName(),candidate.getBirthOfYear())) {
+		if (userCheckService.validateByMernis(Long.parseLong(candidate.getIdentityNumber()), candidate.getFirstName(),
+				candidate.getLastName(), candidate.getBirthOfYear())) {
 			return new SuccessResult(Messages.validateSuccessMernis);
 		}
 		return new ErrorResult(Messages.validateErrorMernis);
 	}
+
 }

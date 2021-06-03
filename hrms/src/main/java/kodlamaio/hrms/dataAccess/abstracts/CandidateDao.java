@@ -6,6 +6,6 @@ import kodlamaio.hrms.entities.concretes.Candidate;
 
 public interface CandidateDao extends JpaRepository<Candidate, Integer> {
 
-	Candidate  findByIdentityNumber(String identityNumber);
+	Candidate getByIdentityNumber(String identityNumber);
 
 }

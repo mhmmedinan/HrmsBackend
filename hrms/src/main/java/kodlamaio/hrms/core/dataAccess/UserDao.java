@@ -1,11 +1,10 @@
-package kodlamaio.hrms.dataAccess.abstracts;
+package kodlamaio.hrms.core.dataAccess;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import kodlamaio.hrms.entities.concretes.User;
+import kodlamaio.hrms.core.entities.User;
 
 public interface UserDao extends JpaRepository<User, Integer> {
-	
-	User findUserByEmail(String email);
 
+	User findUserByEmail(String email);
 }

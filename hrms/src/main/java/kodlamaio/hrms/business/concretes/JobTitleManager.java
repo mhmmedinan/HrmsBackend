@@ -29,22 +29,21 @@ public class JobTitleManager implements JobTitleService {
 
 	@Override
 	public DataResult<List<JobTitle>> getAll() {
-		return new SuccessDataResult<List<JobTitle>>(this.jobTitleDao.findAll());
+		return new SuccessDataResult<List<JobTitle>>(this.jobTitleDao.findAll(), Messages.listAllTitle);
 	}
 
 	@Override
 	public Result add(JobTitle jobTitle) {
 		var result = BusinessRules.run(checkIfTitleExists(jobTitle));
-		if (result!=null) {
+		if (result != null) {
 			return result;
 		}
 		this.jobTitleDao.save(jobTitle);
 		return new SuccessResult(Messages.jobTitleAdded);
 	}
-	
-	
+
 	private Result checkIfTitleExists(JobTitle jobTitle) {
-		if (this.jobTitleDao.findByTitle(jobTitle.getTitle())!=null) {
+		if (this.jobTitleDao.getByTitle(jobTitle.getTitle()) != null) {
 			return new ErrorResult(Messages.checkIfTitleExists);
 		}
 		return new SuccessResult();
