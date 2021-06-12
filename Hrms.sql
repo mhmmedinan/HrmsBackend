@@ -72,6 +72,15 @@ CREATE TABLE public.employers
     PRIMARY KEY (user_id)
 );
 
+CREATE TABLE public.foreign_languages
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    resume_id integer NOT NULL,
+    name character varying NOT NULL,
+    level double precision NOT NULL,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE public.job_adverts
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
@@ -88,10 +97,52 @@ CREATE TABLE public.job_adverts
     PRIMARY KEY (id)
 );
 
+CREATE TABLE public.job_experiences
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    resume_id integer NOT NULL,
+    business_name character varying(50) NOT NULL,
+    start_date date NOT NULL,
+    end_date date,
+    "position" character varying(50) NOT NULL,
+    status character varying(255),
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE public.job_titles
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     title character varying(50) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE public.resumes
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    candidate_id integer NOT NULL,
+    cover_letter character varying(300) NOT NULL,
+    github_address character varying(100) NOT NULL,
+    linkedin_address character varying(100) NOT NULL,
+    url character varying(255) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE public.schools
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    resume_id integer NOT NULL,
+    school_name character varying(50) NOT NULL,
+    school_episode character varying(50) NOT NULL,
+    start_date date NOT NULL,
+    end_date date,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE public.technologies
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    resume_id integer NOT NULL,
+    name character varying NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -164,6 +215,12 @@ ALTER TABLE public.employers
     NOT VALID;
 
 
+ALTER TABLE public.foreign_languages
+    ADD FOREIGN KEY (resume_id)
+    REFERENCES public.resumes (id)
+    NOT VALID;
+
+
 ALTER TABLE public.job_adverts
     ADD FOREIGN KEY (city_id)
     REFERENCES public.cities (id)
@@ -179,6 +236,30 @@ ALTER TABLE public.job_adverts
 ALTER TABLE public.job_adverts
     ADD FOREIGN KEY (job_title_id)
     REFERENCES public.job_titles (id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_experiences
+    ADD FOREIGN KEY (resume_id)
+    REFERENCES public.resumes (id)
+    NOT VALID;
+
+
+ALTER TABLE public.resumes
+    ADD FOREIGN KEY (candidate_id)
+    REFERENCES public.candidates (user_id)
+    NOT VALID;
+
+
+ALTER TABLE public.schools
+    ADD FOREIGN KEY (resume_id)
+    REFERENCES public.resumes (id)
+    NOT VALID;
+
+
+ALTER TABLE public.technologies
+    ADD FOREIGN KEY (resume_id)
+    REFERENCES public.resumes (id)
     NOT VALID;
 
 END;
