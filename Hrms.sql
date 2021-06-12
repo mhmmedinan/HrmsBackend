@@ -39,8 +39,21 @@ CREATE TABLE public.candidates
 CREATE TABLE public.cities
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    name character varying(50) NOT NULL,
+    name character varying(30) NOT NULL,
     PRIMARY KEY (id)
+);
+
+CREATE TABLE public.education_levels
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    level character varying(30) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE public.education_levels_job_adverts
+(
+    education_level_id integer NOT NULL,
+    job_adverts_id integer NOT NULL
 );
 
 CREATE TABLE public.employees
@@ -94,6 +107,8 @@ CREATE TABLE public.job_adverts
     create_date date NOT NULL,
     last_apply_date date NOT NULL,
     is_active boolean NOT NULL,
+    way_of_working_id integer,
+    education_level_id integer,
     PRIMARY KEY (id)
 );
 
@@ -155,6 +170,19 @@ CREATE TABLE public.users
     PRIMARY KEY (id)
 );
 
+CREATE TABLE public.way_of_workings
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    working character varying(50) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE public.way_of_workings_job_adverts
+(
+    way_of_working_id integer NOT NULL,
+    job_adverts_id integer NOT NULL
+);
+
 ALTER TABLE public.activation_code_to_canditates
     ADD FOREIGN KEY (candidate_id)
     REFERENCES public.candidates (user_id)
@@ -182,6 +210,18 @@ ALTER TABLE public.activation_codes
 ALTER TABLE public.candidates
     ADD FOREIGN KEY (user_id)
     REFERENCES public.users (id)
+    NOT VALID;
+
+
+ALTER TABLE public.education_levels_job_adverts
+    ADD FOREIGN KEY (job_adverts_id)
+    REFERENCES public.job_adverts (id)
+    NOT VALID;
+
+
+ALTER TABLE public.education_levels_job_adverts
+    ADD FOREIGN KEY (education_level_id)
+    REFERENCES public.education_levels (id)
     NOT VALID;
 
 
@@ -228,6 +268,12 @@ ALTER TABLE public.job_adverts
 
 
 ALTER TABLE public.job_adverts
+    ADD FOREIGN KEY (education_level_id)
+    REFERENCES public.education_levels (id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_adverts
     ADD FOREIGN KEY (employer_id)
     REFERENCES public.employers (user_id)
     NOT VALID;
@@ -236,6 +282,12 @@ ALTER TABLE public.job_adverts
 ALTER TABLE public.job_adverts
     ADD FOREIGN KEY (job_title_id)
     REFERENCES public.job_titles (id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_adverts
+    ADD FOREIGN KEY (way_of_working_id)
+    REFERENCES public.way_of_workings (id)
     NOT VALID;
 
 
@@ -260,6 +312,18 @@ ALTER TABLE public.schools
 ALTER TABLE public.technologies
     ADD FOREIGN KEY (resume_id)
     REFERENCES public.resumes (id)
+    NOT VALID;
+
+
+ALTER TABLE public.way_of_workings_job_adverts
+    ADD FOREIGN KEY (job_adverts_id)
+    REFERENCES public.job_adverts (id)
+    NOT VALID;
+
+
+ALTER TABLE public.way_of_workings_job_adverts
+    ADD FOREIGN KEY (way_of_working_id)
+    REFERENCES public.way_of_workings (id)
     NOT VALID;
 
 END;
