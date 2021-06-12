@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,55 +18,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import kodlamaio.hrms.business.abstracts.JobAdvertService;
+import kodlamaio.hrms.business.abstracts.WayOfWorkingService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
-import kodlamaio.hrms.core.utilities.results.Result;
-import kodlamaio.hrms.entities.concretes.JobAdvert;
-import kodlamaio.hrms.entities.dtos.JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto;
+import kodlamaio.hrms.entities.concretes.WayOfWorking;
 
 @RestController
-@RequestMapping("/api/jobadverts")
+@RequestMapping("/api/workings")
 @CrossOrigin
-public class JobAdvertsController {
-	private JobAdvertService advertService;
+public class WorkingsController {
 
+	private WayOfWorkingService workingService;
 	@Autowired
-	public JobAdvertsController(JobAdvertService advertService) {
+	public WorkingsController(WayOfWorkingService workingService) {
 		super();
-		this.advertService = advertService;
+		this.workingService = workingService;
+	}
+
+	@GetMapping("/getall")
+	public DataResult<List<WayOfWorking>> getAll() {
+		return this.workingService.getAll();
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<?> add(@RequestBody @Valid JobAdvert jobAdvert) {
-		return ResponseEntity.ok(this.advertService.add(jobAdvert));
+	public ResponseEntity<?> add(@RequestBody @Valid WayOfWorking wayOfWorking) {
+		return ResponseEntity.ok(this.workingService.add(wayOfWorking));
 	}
-
-	@GetMapping("getbyisactiveandemployerid")
-	public DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByIsActiveAndEmployerId(int employerId) {
-		return this.advertService.getByIsActiveTrueAndEmployerId(employerId);
-	}
-
-	@GetMapping("getall")
-	public DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByIsActive() {
-		return this.advertService.getByIsActive();
-	}
-
-	@GetMapping("falseisactive")
-	public Result falseIsActived(int id) {
-		return this.advertService.falseIsActived(id);
-	}
-
-	@GetMapping("trueisactive")
-	public Result trueIsActived(int id) {
-		return this.advertService.trueIsActived(id);
-	}
-
-	@GetMapping("getbylastapplydate")
-	public DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByLastApplyDate() {
-		return this.advertService.getByLastApplyDate();
-	}
-
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException exceptions) {

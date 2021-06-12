@@ -26,6 +26,18 @@ public class Messages {
 	public static String cityAdded = "Şehir eklendi";
 	public static String listCityAll = "Tüm şehir bilgileri listelendi";
 
+	
+	/* WayOfWorking */
+
+	public static String workingAdded = "Çalışma şekli eklendi";
+	public static String workingListed = "Tüm çalışma şekilleri listelendi";
+	
+	
+	/* EducationLevel */
+
+	public static String levelAdded = "Eğitim seviyesi eklendi";
+	public static String levelListed = "Tüm eğitim seviyeleri listelendi";
+
 	/* JobAdvert */
 
 	public static String jobAdvertAdded = "İş ilanı eklendi";

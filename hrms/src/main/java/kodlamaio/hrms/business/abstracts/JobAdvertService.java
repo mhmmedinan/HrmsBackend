@@ -5,7 +5,7 @@ import java.util.List;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.JobAdvert;
-import kodlamaio.hrms.entities.dtos.JobAdvertWithEmployerWithJobTitleDto;
+import kodlamaio.hrms.entities.dtos.JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto;
 
 public interface JobAdvertService {
 
@@ -17,11 +17,11 @@ public interface JobAdvertService {
 
 	Result trueIsActived(int id);
 
-	DataResult<List<JobAdvertWithEmployerWithJobTitleDto>> getByIsActiveTrueAndEmployerId(int employerId);
+	DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByIsActiveTrueAndEmployerId(int employerId);
 
-	DataResult<List<JobAdvertWithEmployerWithJobTitleDto>> getByIsActive();
+	DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByIsActive();
 
-	DataResult<List<JobAdvertWithEmployerWithJobTitleDto>> getByLastApplyDate();
+	DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByLastApplyDate();
 
 	DataResult<JobAdvert> getById(int id);
 }

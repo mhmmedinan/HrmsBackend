@@ -14,7 +14,7 @@ import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.JobAdvertDao;
 import kodlamaio.hrms.entities.concretes.JobAdvert;
-import kodlamaio.hrms.entities.dtos.JobAdvertWithEmployerWithJobTitleDto;
+import kodlamaio.hrms.entities.dtos.JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto;
 
 @Service
 public class JobAdvertManager implements JobAdvertService {
@@ -71,21 +71,21 @@ public class JobAdvertManager implements JobAdvertService {
 	}
 
 	@Override
-	public DataResult<List<JobAdvertWithEmployerWithJobTitleDto>> getByIsActiveTrueAndEmployerId(int employerId) {
-		return new SuccessDataResult<List<JobAdvertWithEmployerWithJobTitleDto>>(
+	public DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByIsActiveTrueAndEmployerId(int employerId) {
+		return new SuccessDataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>>(
 				this.jobAdvertDao.getByIsActiveAndEmployerId(employerId), Messages.listEmployerTrueAll);
 	}
 
 	@Override
-	public DataResult<List<JobAdvertWithEmployerWithJobTitleDto>> getByIsActive() {
+	public DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByIsActive() {
 
-		return new SuccessDataResult<List<JobAdvertWithEmployerWithJobTitleDto>>(this.jobAdvertDao.getByIsActive(),
+		return new SuccessDataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>>(this.jobAdvertDao.getByIsActive(),
 				Messages.listTrueJobAdvertAll);
 	}
 
 	@Override
-	public DataResult<List<JobAdvertWithEmployerWithJobTitleDto>> getByLastApplyDate() {
-		return new SuccessDataResult<List<JobAdvertWithEmployerWithJobTitleDto>>(this.jobAdvertDao.getByLastApplyDate(),
+	public DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByLastApplyDate() {
+		return new SuccessDataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>>(this.jobAdvertDao.getByLastApplyDate(),
 				Messages.listLastApply);
 	}
 

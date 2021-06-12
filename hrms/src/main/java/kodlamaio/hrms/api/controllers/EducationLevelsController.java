@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,55 +18,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import kodlamaio.hrms.business.abstracts.JobAdvertService;
+import kodlamaio.hrms.business.abstracts.EducationLevelService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
-import kodlamaio.hrms.core.utilities.results.Result;
-import kodlamaio.hrms.entities.concretes.JobAdvert;
-import kodlamaio.hrms.entities.dtos.JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto;
+import kodlamaio.hrms.entities.concretes.EducationLevel;
+
 
 @RestController
-@RequestMapping("/api/jobadverts")
+@RequestMapping("/api/educationlevels")
 @CrossOrigin
-public class JobAdvertsController {
-	private JobAdvertService advertService;
+public class EducationLevelsController {
+
+	private EducationLevelService educationLevelService;
 
 	@Autowired
-	public JobAdvertsController(JobAdvertService advertService) {
+	public EducationLevelsController(EducationLevelService educationLevelService) {
 		super();
-		this.advertService = advertService;
+		this.educationLevelService = educationLevelService;
+	}
+	
+
+	@GetMapping("/getall")
+	public DataResult<List<EducationLevel>> getAll() {
+		return this.educationLevelService.getAll();
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<?> add(@RequestBody @Valid JobAdvert jobAdvert) {
-		return ResponseEntity.ok(this.advertService.add(jobAdvert));
+	public ResponseEntity<?> add(@RequestBody @Valid EducationLevel educationLevel) {
+		return ResponseEntity.ok(this.educationLevelService.add(educationLevel));
 	}
-
-	@GetMapping("getbyisactiveandemployerid")
-	public DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByIsActiveAndEmployerId(int employerId) {
-		return this.advertService.getByIsActiveTrueAndEmployerId(employerId);
-	}
-
-	@GetMapping("getall")
-	public DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByIsActive() {
-		return this.advertService.getByIsActive();
-	}
-
-	@GetMapping("falseisactive")
-	public Result falseIsActived(int id) {
-		return this.advertService.falseIsActived(id);
-	}
-
-	@GetMapping("trueisactive")
-	public Result trueIsActived(int id) {
-		return this.advertService.trueIsActived(id);
-	}
-
-	@GetMapping("getbylastapplydate")
-	public DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByLastApplyDate() {
-		return this.advertService.getByLastApplyDate();
-	}
-
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException exceptions) {
