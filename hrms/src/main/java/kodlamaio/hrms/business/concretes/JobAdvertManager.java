@@ -14,7 +14,7 @@ import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.JobAdvertDao;
 import kodlamaio.hrms.entities.concretes.JobAdvert;
-import kodlamaio.hrms.entities.dtos.JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto;
+import kodlamaio.hrms.entities.dtos.JobAdvertDtoWithQuery;
 
 @Service
 public class JobAdvertManager implements JobAdvertService {
@@ -71,21 +71,21 @@ public class JobAdvertManager implements JobAdvertService {
 	}
 
 	@Override
-	public DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByIsActiveTrueAndEmployerId(int employerId) {
-		return new SuccessDataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>>(
+	public DataResult<List<JobAdvertDtoWithQuery>> getByIsActiveTrueAndEmployerId(int employerId) {
+		return new SuccessDataResult<List<JobAdvertDtoWithQuery>>(
 				this.jobAdvertDao.getByIsActiveAndEmployerId(employerId), Messages.listEmployerTrueAll);
 	}
 
 	@Override
-	public DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByIsActive() {
+	public DataResult<List<JobAdvertDtoWithQuery>> getByIsActive() {
 
-		return new SuccessDataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>>(this.jobAdvertDao.getByIsActive(),
+		return new SuccessDataResult<List<JobAdvertDtoWithQuery>>(this.jobAdvertDao.getByIsActive(),
 				Messages.listTrueJobAdvertAll);
 	}
 
 	@Override
-	public DataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>> getByLastApplyDate() {
-		return new SuccessDataResult<List<JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto>>(this.jobAdvertDao.getByLastApplyDate(),
+	public DataResult<List<JobAdvertDtoWithQuery>> getByLastApplyDate() {
+		return new SuccessDataResult<List<JobAdvertDtoWithQuery>>(this.jobAdvertDao.getByLastApplyDate(),
 				Messages.listLastApply);
 	}
 
@@ -93,6 +93,17 @@ public class JobAdvertManager implements JobAdvertService {
 	public DataResult<JobAdvert> getById(int id) {
 
 		return new SuccessDataResult<JobAdvert>(this.jobAdvertDao.getOne(id));
+	}
+
+	@Override
+	public DataResult<List<JobAdvert>> getAll() {
+		return new SuccessDataResult<List<JobAdvert>>(this.jobAdvertDao.findAll());
+	}
+
+	@Override
+	public Result delete(int id) {
+		this.jobAdvertDao.deleteById(id);
+		return new SuccessResult(Messages.jobAdvertDeleted);
 	}
 
 }

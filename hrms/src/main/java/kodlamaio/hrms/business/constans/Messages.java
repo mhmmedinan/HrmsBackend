@@ -50,6 +50,7 @@ public class Messages {
 	public static String listEmployerTrueAll = "İş veren bilgisine göre tüm aktif iş ilanı listelendi";
 	public static String listTrueJobAdvertAll = "Tüm aktif iş ilanı bilgileri listelendi";
 	public static String listLastApply = "Son eklenme tarihine göre iş ilanları  listelendi";
+	public static String jobAdvertDeleted="İş ilanı silindi";
 
 	/* School */
 	public static String schoolAdded = "Okul bilgisi eklendi";

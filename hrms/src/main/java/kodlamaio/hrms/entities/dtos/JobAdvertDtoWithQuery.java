@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayOfWorkingDto {
+public class JobAdvertDtoWithQuery {
 
 	private int id;
 
@@ -19,15 +19,17 @@ public class JobAdvertWithEmployerWithJobTitleWithCityWithEducationLevelWithWayO
 
 	private LocalDate createDate;
 
-	private LocalDate lastApplyDate;
+	private Date lastApplyDate;
 
 	private String companyName;
-
+	
 	private String title;
 	
 	private String city;
 	
 	private String educationLevel;
 	
-	private String working;
+	private String workTime;
+	
+	private String workType;
 }

@@ -1,9 +1,8 @@
 package kodlamaio.hrms.entities.concretes;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
+import java.time.LocalDate;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,10 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -50,12 +46,10 @@ public class JobAdvert {
 	private int openPositionCount;
 
 	@Column(name = "create_date")
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate createDate = LocalDate.now();
 
 	@Column(name = "last_apply_date")
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	private LocalDate lastApplyDate;
+	private Date lastApplyDate;
 
 	@Column(name = "is_active")
 	private boolean isActive;
@@ -79,5 +73,9 @@ public class JobAdvert {
 	@ManyToOne()
 	@JoinColumn(name = "education_level_id")
 	private EducationLevel educationLevel;
+	
+	@ManyToOne()
+	@JoinColumn(name = "type_of_work_id")
+	private WorkType workType;
 
 }
