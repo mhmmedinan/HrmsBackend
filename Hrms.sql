@@ -99,16 +99,17 @@ CREATE TABLE public.job_adverts
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     city_id integer NOT NULL,
     employer_id integer NOT NULL,
-    job_title_id integer NOT NULL,
+    job_title_id integer,
     description character varying(500) NOT NULL,
     min_salary double precision,
     max_salary double precision,
-    open_position_count integer NOT NULL,
-    create_date date NOT NULL,
-    last_apply_date date NOT NULL,
-    is_active boolean NOT NULL,
+    open_position_count integer,
+    create_date date,
+    last_apply_date date,
+    is_active boolean,
     way_of_working_id integer,
     education_level_id integer,
+    type_of_work_id integer,
     PRIMARY KEY (id)
 );
 
@@ -159,6 +160,19 @@ CREATE TABLE public.technologies
     resume_id integer NOT NULL,
     name character varying NOT NULL,
     PRIMARY KEY (id)
+);
+
+CREATE TABLE public.type_of_works
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    work character varying(50) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE public.type_of_works_job_adverts
+(
+    work_type_id integer NOT NULL,
+    job_adverts_id integer NOT NULL
 );
 
 CREATE TABLE public.users
@@ -286,6 +300,12 @@ ALTER TABLE public.job_adverts
 
 
 ALTER TABLE public.job_adverts
+    ADD FOREIGN KEY (type_of_work_id)
+    REFERENCES public.type_of_works (id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_adverts
     ADD FOREIGN KEY (way_of_working_id)
     REFERENCES public.way_of_workings (id)
     NOT VALID;
@@ -312,6 +332,18 @@ ALTER TABLE public.schools
 ALTER TABLE public.technologies
     ADD FOREIGN KEY (resume_id)
     REFERENCES public.resumes (id)
+    NOT VALID;
+
+
+ALTER TABLE public.type_of_works_job_adverts
+    ADD FOREIGN KEY (job_adverts_id)
+    REFERENCES public.job_adverts (id)
+    NOT VALID;
+
+
+ALTER TABLE public.type_of_works_job_adverts
+    ADD FOREIGN KEY (work_type_id)
+    REFERENCES public.type_of_works (id)
     NOT VALID;
 
 
