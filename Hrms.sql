@@ -61,7 +61,6 @@ CREATE TABLE public.employees
     user_id integer NOT NULL,
     first_name character varying(25) NOT NULL,
     last_name character varying(25) NOT NULL,
-    id integer NOT NULL,
     PRIMARY KEY (user_id)
 );
 
@@ -82,7 +81,16 @@ CREATE TABLE public.employers
     web_address character varying(50) NOT NULL,
     phone_number character varying(12) NOT NULL,
     is_activated boolean NOT NULL,
+    history json,
     PRIMARY KEY (user_id)
+);
+
+CREATE TABLE public.favorite_job_adverts
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    candidate_id integer NOT NULL,
+    job_advert_id integer NOT NULL,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE public.foreign_languages
@@ -121,7 +129,6 @@ CREATE TABLE public.job_experiences
     start_date date NOT NULL,
     end_date date,
     "position" character varying(50) NOT NULL,
-    status character varying(255),
     PRIMARY KEY (id)
 );
 
@@ -139,7 +146,7 @@ CREATE TABLE public.resumes
     cover_letter character varying(300) NOT NULL,
     github_address character varying(100) NOT NULL,
     linkedin_address character varying(100) NOT NULL,
-    url character varying(255) NOT NULL,
+    url character varying(255),
     PRIMARY KEY (id)
 );
 
@@ -245,12 +252,6 @@ ALTER TABLE public.employees
     NOT VALID;
 
 
-ALTER TABLE public.employees
-    ADD FOREIGN KEY (id)
-    REFERENCES public.users (id)
-    NOT VALID;
-
-
 ALTER TABLE public.employer_activation_by_employees
     ADD FOREIGN KEY (confirmed_employee_id)
     REFERENCES public.employees (user_id)
@@ -266,6 +267,18 @@ ALTER TABLE public.employer_activation_by_employees
 ALTER TABLE public.employers
     ADD FOREIGN KEY (user_id)
     REFERENCES public.users (id)
+    NOT VALID;
+
+
+ALTER TABLE public.favorite_job_adverts
+    ADD FOREIGN KEY (candidate_id)
+    REFERENCES public.candidates (user_id)
+    NOT VALID;
+
+
+ALTER TABLE public.favorite_job_adverts
+    ADD FOREIGN KEY (job_advert_id)
+    REFERENCES public.job_adverts (id)
     NOT VALID;
 
 
