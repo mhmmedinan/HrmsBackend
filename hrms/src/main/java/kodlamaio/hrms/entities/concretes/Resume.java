@@ -50,6 +50,7 @@ public class Resume {
 	@JoinColumn(name = "candidate_id")
 	private Candidate candidate;
 
+
 	@OneToMany(mappedBy = "resume")
 	private List<School> schools;
 

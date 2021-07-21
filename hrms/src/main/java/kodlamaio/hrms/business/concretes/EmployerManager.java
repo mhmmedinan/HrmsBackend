@@ -1,7 +1,10 @@
 package kodlamaio.hrms.business.concretes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +62,40 @@ public class EmployerManager implements EmployerService {
 		return new ErrorResult(Messages.employerInsertionError);
 
 	}
+	
+	
+	@Override
+	public Result update(Employer employer) throws JSONException {
+		Employer employerUpdate = employerDao.getOne(employer.getId());
+		employerUpdate.setHistory(getJson(employer));
+		employerUpdate.setActivated(false);
+		this.employerDao.save(employerUpdate);
+		
+		return new SuccessResult("Sisem personeli tarafından onaylandıktan sonra güncellenecektir");
+	}
+	
+	
+	@Override
+	public DataResult<List<Employer>> getById(int id) {
+		return new SuccessDataResult<List<Employer>>(this.employerDao.getById(id));
+	}
+	
+	@Override
+	public DataResult<List<Employer>> getByIsAcivatedUpdate() {
+		return new SuccessDataResult<List<Employer>>(this.employerDao.getByIsActivatedUpdate());
+	}
+	
+	@Override
+	public Map<String, Object> getJson(Employer employer) {
+		Map<String, Object> json = new HashMap<>();
+		json.put("email", employer.getEmail());
+		json.put("companyName", employer.getCompanyName());
+		json.put("webAddress", employer.getWebAddress());
+		json.put("password", employer.getPassword());
+		json.put("passwordRepeat", employer.getPasswordRepeat());
+		json.put("phoneNumber", employer.getPhoneNumber());
+		return json;
+	}
 
 	private Result checkIfMailExists(Employer employer) {
 		if (this.userDao.findUserByEmail(employer.getEmail()) != null) {
@@ -81,4 +118,6 @@ public class EmployerManager implements EmployerService {
 		}
 		return new SuccessResult();
 	}
+
+
 }

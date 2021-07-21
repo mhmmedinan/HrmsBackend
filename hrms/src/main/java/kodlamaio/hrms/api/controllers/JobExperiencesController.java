@@ -21,6 +21,7 @@ import kodlamaio.hrms.business.abstracts.JobExperienceService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
 import kodlamaio.hrms.entities.concretes.JobExperience;
+import kodlamaio.hrms.entities.dtos.JobExperienceDto;
 
 @RestController
 @RequestMapping("api/jobexperiences")
@@ -36,8 +37,18 @@ public class JobExperiencesController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<?> add(@RequestBody @Valid JobExperience jobExperience) {
-		return ResponseEntity.ok(this.experienceService.add(jobExperience));
+	public ResponseEntity<?> add(@RequestBody @Valid JobExperienceDto jobExperienceDto) {
+		return ResponseEntity.ok(this.experienceService.add(jobExperienceDto));
+	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<?> update(@RequestBody JobExperienceDto jobExperienceDto) {
+		return ResponseEntity.ok(this.experienceService.update(jobExperienceDto));
+	}
+	
+	@PostMapping("/delete")
+	public ResponseEntity<?> delete(int id) {
+		return ResponseEntity.ok(this.experienceService.delete(id));
 	}
 
 	@GetMapping("/getbyresumeId")

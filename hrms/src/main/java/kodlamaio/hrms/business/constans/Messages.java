@@ -6,6 +6,11 @@ public class Messages {
 	public static String jobTitleAdded = "İş pozisyonu eklendi";
 	public static String checkIfTitleExists = "Aynı isimde iş pozisyonu mevcut";
 	public static String listAllTitle = "Tüm iş pozisyonu bilgileri listelendi";
+	
+	/*  Employee     */
+	
+	public static String employeeAdded = "Sistem personeli eklendi";
+	public static String employeeUpdated = "Sistem personeli güncellendi";
 
 	/* Employer */
 	public static String employerAdded = "İş Veren eklendi.Kaydın tamamlanması için doğrulama kodu gönderildi ";
@@ -54,23 +59,28 @@ public class Messages {
 
 	/* School */
 	public static String schoolAdded = "Okul bilgisi eklendi";
+	public static String schoolDeleted = "Okul bilgisi silindi";
+	public static String schoolUpdated = "Okul bilgisi güncellendi";
 	public static String listCandidateSchool = "İş arayan bilgisine göre okul listelendi";
 	public static String listSchool = "Tüm okul bilgileri listelendi";
 
 	/* JobExperience */
 
 	public static String jobExperienceAdded = "İş tecrübe bilgisi eklendi";
+	public static String jobExperienceDeleted = "İş tecrübe bilgisi silindi";
 	public static String listCandidate = "İş arayan bilgisine göre listelendi";
 	public static String listAllExperience = "İş tecrübe bilgileri eklendi";
 
 	/* Language */
 
 	public static String languageAdded = "Yabancı dil eklendi";
+	public static String languageDeleted= "Yabancı dil silindi";
 	public static String listAllLang = "Tüm yabancı dil bilgileri listelendi";
 
 	/* Technologie */
 
 	public static String techAdded = "Teknoloji bilgisi eklendi";
+	public static String techDeleted = "Teknoloji bilgisi silindi";
 	public static String listtech = "Tüm teknoloji bilgileri  listelendi";
 
 	/* Resume */
@@ -79,6 +89,7 @@ public class Messages {
 	public static String resumeDeleted = "Özgeçmiş silindi";
 	public static String listCandidateCv = "İş arayan bilgisine göre cv listelendi";
 	public static String listAllCv = "Tüm cv listelendi";
+	public static String updatePersonalInformation="Güncellendi";
 
 	/* Global */
 	public static String checkIfPasswordExists = "Şifreler uyuşmuyor";

@@ -21,6 +21,7 @@ import kodlamaio.hrms.business.abstracts.TechnologieService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
 import kodlamaio.hrms.entities.concretes.Technologie;
+import kodlamaio.hrms.entities.dtos.TechnologieDto;
 
 @RestController
 @RequestMapping("api/technologies")
@@ -35,13 +36,28 @@ public class TechnologiesController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<?> add(@RequestBody @Valid Technologie technologie) {
-		return ResponseEntity.ok(this.technologieService.add(technologie));
+	public ResponseEntity<?> add(@RequestBody @Valid TechnologieDto technologieDto) {
+		return ResponseEntity.ok(this.technologieService.add(technologieDto));
+	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<?> update(@RequestBody TechnologieDto technologieDto) {
+		return ResponseEntity.ok(this.technologieService.update(technologieDto));
+	}
+	
+	@PostMapping("/delete")
+	public ResponseEntity<?> delete(int id) {
+		return ResponseEntity.ok(this.technologieService.delete(id));
 	}
 
 	@GetMapping("/getall")
 	public DataResult<List<Technologie>> getAll() {
 		return this.technologieService.getAll();
+	}
+	
+	@GetMapping("/getbyresumeid")
+	public DataResult<List<Technologie>> getByResumeId(int resumeId) {
+		return this.technologieService.getByResumeId(resumeId);
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)

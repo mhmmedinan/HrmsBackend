@@ -21,9 +21,10 @@ import kodlamaio.hrms.business.abstracts.LanguageService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
 import kodlamaio.hrms.entities.concretes.Language;
+import kodlamaio.hrms.entities.dtos.LanguageDto;
 
 @RestController
-@RequestMapping("api/languages")
+@RequestMapping("/api/languages")
 @CrossOrigin
 public class LanguagesController {
 
@@ -36,13 +37,28 @@ public class LanguagesController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<?> add(@RequestBody @Valid Language language) {
-		return ResponseEntity.ok(this.languageService.add(language));
+	public ResponseEntity<?> add(@RequestBody @Valid LanguageDto languageDto) {
+		return ResponseEntity.ok(this.languageService.add(languageDto));
+	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<?> update(@RequestBody  LanguageDto languageDto) {
+		return ResponseEntity.ok(this.languageService.update(languageDto));
+	}
+	
+	@PostMapping("/delete")
+	public ResponseEntity<?> delete(int id) {
+		return ResponseEntity.ok(this.languageService.delete(id));
 	}
 
 	@GetMapping("/getall")
 	public DataResult<List<Language>> getAll() {
 		return this.languageService.getAll();
+	}
+	
+	@GetMapping("/getresumeid")
+	public DataResult<List<Language>> getByResumeId(int resumeId) {
+		return this.languageService.getByResumeId(resumeId);
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)

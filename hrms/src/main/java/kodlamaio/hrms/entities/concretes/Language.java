@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -38,6 +39,7 @@ public class Language {
 	@Min(1)
 	private double level;
 
+	
 	@ManyToOne()
 	@JoinColumn(name = "resume_id")
 	private Resume resume;

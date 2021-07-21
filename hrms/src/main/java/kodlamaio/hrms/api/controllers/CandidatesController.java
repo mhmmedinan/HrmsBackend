@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kodlamaio.hrms.business.abstracts.CandidateService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
+import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.Candidate;
 
 @RestController
@@ -42,15 +43,33 @@ public class CandidatesController {
 	public DataResult<List<Candidate>> getAll() {
 		return this.candidateService.getAll();
 	}
+	
+	@GetMapping("/getbyid")
+	public DataResult<Candidate> getById(int id) {
+		return this.candidateService.getById(id);
+	}
 
 	@PostMapping("/add")
 	public ResponseEntity<?> add(@RequestBody @Valid Candidate candidate) {
-		return ResponseEntity.ok(this.candidateService.add(candidate));
+		Result result = this.candidateService.add(candidate);
+		if(result.isSuccess())
+		{
+			return ResponseEntity.ok(result);
+		}
+		
+		return ResponseEntity.badRequest().body(result);
+		
 	}
 
 	@PostMapping("/delete")
 	public ResponseEntity<?> delete(@RequestBody @Valid Candidate candidate) {
-		return ResponseEntity.ok(this.candidateService.delete(candidate));
+		Result result = this.candidateService.delete(candidate);
+		if(result.isSuccess())
+		{
+			return ResponseEntity.ok(result);
+		}
+		
+		return ResponseEntity.badRequest().body(result);
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)

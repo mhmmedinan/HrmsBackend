@@ -1,9 +1,7 @@
 package kodlamaio.hrms.entities.dtos;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

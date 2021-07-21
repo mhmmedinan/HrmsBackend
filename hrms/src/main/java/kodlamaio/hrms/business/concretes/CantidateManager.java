@@ -62,6 +62,10 @@ public class CantidateManager implements CandidateService {
 		return new SuccessDataResult<List<Candidate>>(this.candidateDao.findAll(), Messages.listAll);
 
 	}
+	@Override
+	public DataResult<Candidate> getById(int id) {
+		return new SuccessDataResult<Candidate>(this.candidateDao.getById(id));
+	}
 
 	private Result checkIfPasswordExists(Candidate candidate) {
 		if (!candidate.getPassword().equals(candidate.getPasswordRepeat())) {
@@ -92,5 +96,7 @@ public class CantidateManager implements CandidateService {
 		}
 		return new ErrorResult(Messages.validateErrorMernis);
 	}
+
+	
 
 }

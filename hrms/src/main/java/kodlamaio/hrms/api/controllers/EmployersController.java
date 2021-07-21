@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,10 +43,28 @@ public class EmployersController {
 	public DataResult<List<Employer>> getAll() {
 		return this.employerService.getAll();
 	}
+	
+	
+	@GetMapping("/getbyisactivatedupdate")
+	public DataResult<List<Employer>> getByUpdate() {
+		return this.employerService.getByIsAcivatedUpdate();
+	}
+	
+	@GetMapping("/getbyid")
+	public DataResult<List<Employer>> getById(int id) {
+		return this.employerService.getById(id);
+	}
 
 	@PostMapping("/add")
 	public ResponseEntity<?> add(@RequestBody @Valid Employer employer) {
 		return ResponseEntity.ok(this.employerService.add(employer));
+
+	}
+	
+	
+	@PostMapping("/update")
+	public ResponseEntity<?> update(@RequestBody @Valid Employer employer) throws JSONException {
+		return ResponseEntity.ok(this.employerService.update(employer));
 
 	}
 

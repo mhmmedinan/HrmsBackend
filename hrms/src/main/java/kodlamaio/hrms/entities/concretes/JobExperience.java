@@ -1,6 +1,6 @@
 package kodlamaio.hrms.entities.concretes;
 
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,19 +34,15 @@ public class JobExperience {
 	private String position;
 
 	@Column(name = "start_date")
-	private Date startDate;
+	private LocalDate startDate;
 
 	@Column(name = "end_date")
-	private Date endDate;
+	private LocalDate endDate;
 
 	@ManyToOne()
 	@JoinColumn(name = "resume_id")
 	private Resume resume;
 
-	public String getEndDate() {
-		if (this.endDate == null)
-			return "Devam ediyor";
-		return this.endDate.toString();
-	}
+	
 
 }

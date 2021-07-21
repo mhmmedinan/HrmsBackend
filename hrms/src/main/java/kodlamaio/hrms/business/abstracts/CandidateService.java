@@ -13,5 +13,6 @@ public interface CandidateService {
 	Result delete(Candidate candidate);
 
 	DataResult<List<Candidate>> getAll();
+	DataResult<Candidate> getById(int id);
 
 }

@@ -9,4 +9,6 @@ public interface JobExperienceDao extends JpaRepository<JobExperience, Integer> 
 
 	@Query("From JobExperience j Where j.resume.id=:resumeId Order by j.endDate Desc")
 	List<JobExperience> getByResumeId(int resumeId);
+	
+	JobExperience getById(int id);
 }

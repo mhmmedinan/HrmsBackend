@@ -1,11 +1,9 @@
 package kodlamaio.hrms.api.controllers;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +17,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import kodlamaio.hrms.business.abstracts.SchoolService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
+import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.School;
+import kodlamaio.hrms.entities.dtos.SchoolDto;
 
 @RestController
-@RequestMapping("api/schools")
+@RequestMapping("/api/schools")
 @CrossOrigin
 public class SchoolsController {
 	
@@ -41,8 +40,19 @@ public class SchoolsController {
 	
 
 	@PostMapping("/add")
-	public ResponseEntity<?> add(@RequestBody @Valid School school) {
-		return ResponseEntity.ok(this.schoolService.add(school));
+	public Result add(@RequestBody SchoolDto schoolDto) {
+		return this.schoolService.add(schoolDto);
+	}
+	
+
+	@PostMapping("/delete")
+	public Result delete( int id) {
+		return this.schoolService.delete(id);
+	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<?> update(@RequestBody SchoolDto schoolDto) {
+		return ResponseEntity.ok(this.schoolService.update(schoolDto));
 	}
 	
 	@GetMapping("/getbyschoolresumeId")

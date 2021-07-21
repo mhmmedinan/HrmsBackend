@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import kodlamaio.hrms.business.abstracts.JobAdvertService;
@@ -25,6 +26,7 @@ import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.JobAdvert;
 import kodlamaio.hrms.entities.dtos.JobAdvertDtoWithQuery;
+import kodlamaio.hrms.entities.dtos.JobAdvertFilter;
 
 @RestController
 @RequestMapping("/api/jobadverts")
@@ -63,17 +65,37 @@ public class JobAdvertsController {
 	public DataResult<List<JobAdvert>> getAll() {
 		return this.advertService.getAll();
 	}
+	
+
+	@GetMapping("getallsorted")
+	public DataResult<List<JobAdvert>> getAllSorted() {
+		return this.advertService.getAllSorted();
+	}
 
 	@PostMapping("falseisactive")
-	public Result falseIsActived(int id) {
-		return this.advertService.falseIsActived(id);
+	public ResponseEntity<?>  falseIsActived(int id) {
+		Result result = this.advertService.falseIsActived(id);
+		if(result.isSuccess()) {
+			return ResponseEntity.ok(result);
+		}
+		return ResponseEntity.badRequest().body(result);
+		
 	}
 
 	@PostMapping("trueisactive")
-	public Result trueIsActived(int id) {
-		return this.advertService.trueIsActived(id);
+	public ResponseEntity<?>  trueIsActived(int id) {
+		Result result = this.advertService.trueIsActived(id);
+		if(result.isSuccess()) {
+			return ResponseEntity.ok(result);
+		}
+		return ResponseEntity.badRequest().body(result);
 	}
-
+	
+	@PostMapping("/getfilterandpage")
+	public Result getFilterAndPage(@RequestParam int pageNo,@RequestParam int pageSize,@RequestBody JobAdvertFilter jobAdvertFilter) {
+	return this.advertService.getAllFilterAndPage(pageNo, pageSize, jobAdvertFilter);
+	}
+	
 	@GetMapping("getbylastapplydate")
 	public DataResult<List<JobAdvertDtoWithQuery>> getByLastApplyDate() {
 		return this.advertService.getByLastApplyDate();

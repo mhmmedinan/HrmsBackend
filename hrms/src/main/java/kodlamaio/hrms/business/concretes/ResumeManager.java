@@ -61,4 +61,16 @@ public class ResumeManager implements ResumeService {
 		this.resumeDao.delete(resume);
 		return new SuccessResult(Messages.resumeDeleted);
 	}
+
+	@Override
+	public Result update(String coverLetter,String githubAddress,String linkedinAddress, int resumeId) {
+		Resume resume = this.resumeDao.getById(resumeId);
+		resume.setCoverLetter(coverLetter);
+		resume.setGithubAddress(githubAddress);
+		resume.setLinkedinAddress(linkedinAddress);
+		this.resumeDao.save(resume);
+		return new SuccessResult(Messages.updatePersonalInformation);
+	}
+
+	
 }

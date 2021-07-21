@@ -15,6 +15,10 @@ import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.JobAdvertDao;
 import kodlamaio.hrms.entities.concretes.JobAdvert;
 import kodlamaio.hrms.entities.dtos.JobAdvertDtoWithQuery;
+import kodlamaio.hrms.entities.dtos.JobAdvertFilter;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class JobAdvertManager implements JobAdvertService {
@@ -104,6 +108,20 @@ public class JobAdvertManager implements JobAdvertService {
 	public Result delete(int id) {
 		this.jobAdvertDao.deleteById(id);
 		return new SuccessResult(Messages.jobAdvertDeleted);
+	}
+
+	@Override
+	public DataResult<List<JobAdvert>> getAllSorted() {
+		Sort sort = Sort.by(Sort.Direction.DESC,"createDate");
+		return new SuccessDataResult<List<JobAdvert>>
+		(this.jobAdvertDao.findAll(sort),"Başarılı");
+	}
+
+	@Override
+	public DataResult<List<JobAdvert>> getAllFilterAndPage(int pageNo, int pageSize, JobAdvertFilter advertFilter) {
+		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+		return new  SuccessDataResult<List<JobAdvert>>(this.jobAdvertDao.getByFilter(advertFilter, pageable).getContent(),
+				this.jobAdvertDao.getByFilter(advertFilter, pageable).getTotalElements()+"");
 	}
 
 }

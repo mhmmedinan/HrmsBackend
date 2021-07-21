@@ -78,4 +78,5 @@ public class JobAdvert {
 	@JoinColumn(name = "type_of_work_id")
 	private WorkType workType;
 
+	
 }

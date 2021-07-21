@@ -3,7 +3,9 @@ package kodlamaio.hrms.api.controllers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,55 +20,50 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import kodlamaio.hrms.business.abstracts.ResumeService;
+import kodlamaio.hrms.business.abstracts.EmployeeService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
-import kodlamaio.hrms.entities.concretes.Resume;
+import kodlamaio.hrms.entities.concretes.Employee;
 
 @RestController
-@RequestMapping("/api/resumes")
+@RequestMapping("/api/employees")
 @CrossOrigin
-public class ResumesController {
+public class EmployeesController {
 
-	private ResumeService resumeService;
+	private EmployeeService employeeService;
 
 	@Autowired
-	public ResumesController(ResumeService resumeService) {
+	public EmployeesController(EmployeeService employeeService) {
 		super();
-		this.resumeService = resumeService;
+		this.employeeService = employeeService;
 	}
-
+	
+	
 	@PostMapping("/add")
-	public ResponseEntity<?> add(@RequestBody @Valid Resume resume) {
-		return ResponseEntity.ok(this.resumeService.add(resume));
+	public ResponseEntity<?> add(@RequestBody @Valid Employee employee) {
+		return ResponseEntity.ok(this.employeeService.add(employee));
 	}
+	
+	
+	@PostMapping("/confirmupdateemployer")
+	public ResponseEntity<?> confirmUpdate(int employerId) {
+		return ResponseEntity.ok(this.employeeService.confirmUpdateEmployer(employerId));
 
-	@PostMapping("/delete")
-	public ResponseEntity<?> delete(@RequestBody @Valid Resume resume) {
-		return ResponseEntity.ok(this.resumeService.delete(resume));
-	}
-
-	@GetMapping("/getcandidateid")
-	public DataResult<List<Resume>> getCandidateId(int candidateId) {
-		return this.resumeService.getByCandidateId(candidateId);
-	}
-
-	@PostMapping("/addcvphoto")
-	public ResponseEntity<?> uploadPhoto(int candidateCvId, MultipartFile multipartFile) {
-		return ResponseEntity.ok(this.resumeService.upload(candidateCvId, multipartFile));
 	}
 	
 	@PostMapping("/update")
-	public ResponseEntity<?> update(@RequestParam String coverLetter,@RequestParam String githubAddress,@RequestParam String linkedinAddress,@RequestParam int resumeId) {
-		return ResponseEntity.ok(this.resumeService.update(coverLetter, githubAddress, linkedinAddress, resumeId));
+	public ResponseEntity<?> update(@RequestParam int id,@RequestParam String email,@RequestParam String password,@RequestParam String passwordRepeat,@RequestParam String firstName,@RequestParam String lastName) {
+		return ResponseEntity.ok(this.employeeService.update(id, email, password, passwordRepeat, firstName, lastName));
 	}
-
-	@GetMapping("/getall")
-	public DataResult<List<Resume>> getAll() {
-		return this.resumeService.getAll();
+	
+	@GetMapping("/getbyid")
+	public DataResult<List<Employee>> getById(int id){
+		return this.employeeService.getById(id);
 	}
-
+	
+	
+	
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException exceptions) {

@@ -33,6 +33,7 @@ public class Technologie {
 	@NotNull
 	private String name;
 
+	
 	@ManyToOne()
 	@JoinColumn(name = "resume_id")
 	private Resume resume;
